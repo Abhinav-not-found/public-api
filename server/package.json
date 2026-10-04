@@ -4,8 +4,8 @@
   "description": "Backend for api response",
   "main": "src/server.js",
   "scripts": {
-    "setup": "node scripts/setup.ts",
-    "dev": "tsx --watch src/server.ts",
+    "setup": "tsx src/scripts/server-setup.ts",
+    "dev": "npx tsx watch --watch-path=src src/server.ts",
     "build": "tsc",
     "start": "npm run build && node dist/server.js",
     "generate:openapi": "tsx src/scripts/generate-openapi.ts",
