@@ -1,6 +1,5 @@
 import { Router } from 'express';
 import UserController from './user.controller.js';
-import { requireAuth } from '@/shared/middlewares/auth.middleware.js';
 import validate from '@/shared/middlewares/validate.middleware.js';
 import UserValidator from './user.validator.js';
 
@@ -16,7 +15,7 @@ userRouter.post(
   userController.createUser,
 );
 
-userRouter.get('/', userController.getAllUsers);
+userRouter.get('/', validate({ query: userValidator.userQuerySchema }), userController.getAllUsers);
 
 userRouter.get(
   '/:id',
@@ -33,7 +32,7 @@ userRouter.patch(
 userRouter.delete(
   '/:id',
   validate({ params: userValidator.userIdParamsSchema }),
-  userController.updateUser,
+  userController.deleteUser,
 );
 
 export default userRouter;

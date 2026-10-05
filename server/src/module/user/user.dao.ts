@@ -6,8 +6,11 @@ class UserDao {
     return User.create(data);
   };
 
-  fetchAllUsers = async () => {
-    return User.find().sort({ createdAt: -1 });
+  fetchAllUsers = async (
+    filter: Record<string, unknown> = {},
+    sort: Record<string, 1 | -1> = {},
+  ) => {
+    return User.find({ ...filter, isDeleted: false }).sort(sort);
   };
 
   fetchOneUser = async (id: mongoose.Types.ObjectId | string) => {
@@ -20,6 +23,23 @@ class UserDao {
 
   deleteUser = async (id: mongoose.Types.ObjectId | string) => {
     return User.findByIdAndDelete(id);
+  };
+
+  softDeleteUser = async (id: string) => {
+    return User.findOneAndUpdate(
+      {
+        _id: id,
+        isDeleted: false,
+      },
+      {
+        $set: {
+          isDeleted: true,
+        },
+      },
+      {
+        new: true,
+      },
+    );
   };
 }
 export default UserDao;
