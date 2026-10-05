@@ -6,11 +6,11 @@ import { createSpinner } from '../utils/spinner.utils.js';
 
 async function connectDb() {
   const spinner = createSpinner('Connecting to database...');
-  try {
-    // const conn = await mongoose.connect(env.MONGODB);
-    // logger.info(colorText(`Database connected [name: ${conn.connection.name}]`, 'black', 'green'));
 
-    const conn = await mongoose.connect(env.MONGODB);
+  const uri = process.env.NODE_ENV === 'test' ? env.MONGODB_TEST : env.MONGODB;
+
+  try {
+    const conn = await mongoose.connect(uri);
 
     spinner.success(
       colorText(`Database connected [name: ${conn.connection.name}]`, 'black', 'green'),
@@ -18,8 +18,16 @@ async function connectDb() {
   } catch (error) {
     spinner.error('Database connection failed');
     logger.error(`Error in database connection: ${error}`);
-    throw error
+    throw error;
   }
 }
 
 export default connectDb;
+
+export async function disconnectDb() {
+  const spinner = createSpinner('Connecting to database...');
+
+  const conn = await mongoose.disconnect();
+
+  spinner.success(colorText(`Database disconnected`, 'black', 'green'));
+}

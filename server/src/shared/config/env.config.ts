@@ -8,7 +8,8 @@ config({ quiet: true });
 const envSchema = z.object({
   PORT: z.coerce.number().int().positive().default(envConst.PORT),
   MONGODB: z.string().trim().min(1, 'MONGODB is required').default(envConst.MONGODB),
-  NODE_ENV: z.enum(['development', 'production']),
+  MONGODB_TEST: z.string().trim().min(1, 'MONGODB is required'),
+  NODE_ENV: z.enum(['development', 'production', 'test']),
   JWT_SECRET_ACCESS: z.string().min(1, 'JWT_SECRET_ACCESS is required'),
   JWT_SECRET_REFRESH: z.string().min(1, 'JWT_SECRET_REFRESH is required'),
   CLIENT_URL: z.string().url('CLIENT_URL must be a valid URL'),
@@ -36,7 +37,7 @@ function reportOptionalIntegrations(env: Env) {
   console.warn(`  Missing: ${missing.map((key) => colorText(key, 'cyan')).join(', ')}`);
 
   console.warn(`  Image upload functionality will be unavailable.`);
-  console.warn();
+  process.stdout.write('\n');
 }
 
 function reportDefaults() {
@@ -74,7 +75,9 @@ function validateEnv() {
     process.exit(1);
   }
 
-  reportOptionalIntegrations(result.data);
+  if (process.env.NODE_ENV !== 'test') {
+    reportOptionalIntegrations(result.data);
+  }
 
   return Object.freeze({
     ...result.data,

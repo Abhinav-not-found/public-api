@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
-import { type UserDocument } from './user.model.js';
+import { type UserDocument } from '../user/user.model.js';
 import type { CreateNewUserPayload } from './auth.types.js';
-import User from './user.model.js';
+import User from '../user/user.model.js';
 
 class AuthDao {
   findUserByEmail(email: string): Promise<UserDocument | null> {

@@ -2,7 +2,7 @@ import { Router } from 'express';
 import AuthController from './auth.controller.js';
 import validate from '../../shared/middlewares/validate.middleware.js';
 import AuthValidator from './auth.validator.js';
-import requireAuth from '../../shared/middlewares/auth.middleware.js';
+import { requireAuth } from '@/shared/middlewares/auth.middleware.js';
 
 const authRouter = Router();
 const authController = new AuthController();

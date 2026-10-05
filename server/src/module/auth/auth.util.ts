@@ -1,5 +1,5 @@
 import type { Request } from 'express';
-import type { UserDocument } from '@/module/auth/user.model.js';
+import type { UserDocument } from '@/module/user/user.model.js';
 import ApiError from '@/shared/utils/apiError.util.js';
 
 export const getCurrentUser = (req: Request) => {

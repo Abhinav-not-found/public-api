@@ -4,10 +4,12 @@ import env from '@/shared/config/env.config.js';
 import { colorText } from '@/shared/utils/color-text.utils.js';
 // import createSocketServer from './shared/socket/socket.server.js';
 import logger from './shared/config/logger.config.js';
+import docsRouter from '@/shared/routes/docs.js';
 
 async function startServer() {
   try {
     const app = createApp();
+    app.use('/api/docs', docsRouter);
 
     await connectDb();
 

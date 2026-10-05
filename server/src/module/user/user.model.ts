@@ -11,7 +11,7 @@ export interface IUser {
   avatar:string | null;
 }
 
-interface IUserMethods {
+export interface IUserMethods {
   comparePassword(candidatePassword: string): Promise<boolean>;
 }
 type UserModel = mongoose.Model<IUser, {}, IUserMethods>;
