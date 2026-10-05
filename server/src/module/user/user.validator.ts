@@ -39,6 +39,11 @@ class UserValidator {
     id: z.string().regex(/^[0-9a-fA-F]{24}$/, 'Invalid user ID'),
   });
 
+  readonly userQuerySchema = z.object({
+    search: z.string().trim().optional(),
+    sort: z.string().trim().optional(),
+  });
+
   readonly updateUserSchema = this.createUserSchema.partial();
 }
 export default UserValidator;
